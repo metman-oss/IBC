@@ -7,3 +7,4 @@ makedocs/*/*.aux
 makedocs/*/*.log
 makedocs/*/*.tex
 .*
+CLAUDE.md
