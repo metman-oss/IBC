@@ -484,16 +484,24 @@ echo Starting IBC with this command:
 echo "%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" %HIDDEN_CREDENTIALS% %MODE%
 echo.
 
+:: ==== PROJEKTAENDERUNG Metman-Trader (21.09.2026, Review R16/D5-B2) ====
+::   Das urspruengliche '2>NUL' an allen VIER java.exe-Zeilen unten ist ENTFERNT.
+::   Die Anwendung ueberwacht die Fehlerausgabe des Prozesses (RedirectStandardError
+::   in TwsLoginAutomation) und meldet sie als '[ERR] ...' ins Eventlog. Mit dem
+::   Redirect konnte dieser Kanal NICHTS fangen -- eine Zusicherung ohne Deckung.
+::   Beim Anheben auf eine neue IBC-Version erneut entfernen; die Ratsche
+::   Tools\pruefe_ibc_stderr.py haelt es nach.
+:: ======================================================================
 if defined GOT_FIX_CREDENTIALS (
 	if defined GOT_API_CREDENTIALS (
-		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" "%FIX_USER_ID%" "%FIX_PASSWORD%" "%IB_USER_ID%" "%IB_PASSWORD%" %MODE% 2>NUL
+		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" "%FIX_USER_ID%" "%FIX_PASSWORD%" "%IB_USER_ID%" "%IB_PASSWORD%" %MODE%
 	) else (
-		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" "%FIX_USER_ID%" "%FIX_PASSWORD%" %MODE% 2>NUL
+		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" "%FIX_USER_ID%" "%FIX_PASSWORD%" %MODE%
 	)
 ) else if defined GOT_API_CREDENTIALS (
-		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" "%IB_USER_ID%" "%IB_PASSWORD%" %MODE% 2>NUL
+		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" "%IB_USER_ID%" "%IB_PASSWORD%" %MODE%
 ) else (
-		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" %MODE% 2>NUL
+		"%JAVA_PATH%\java.exe" %EXTRA_JAVA_OPTIONS% -cp  "%IBC_CLASSPATH%" %JAVA_VM_OPTIONS% %AUTORESTART_OPTION% %ENTRY_POINT% "%CONFIG%" %MODE%
 )
 
 ::======================== Handle IBC exit conditions ==============
